@@ -15,8 +15,6 @@ WILDFLY_PID_FILE=/opt/repo/pid/jbossas.pid
 WILDFLY_DEPLOYMENTS_DIR=${OPENSHIFT_WILDFLY_DIR}/standalone/deployments
 SCANCONFIG=""
 
-source /opt/repo/bin/util
-
 cartridge_type="wildfly"
 
 # Return the deployment-scanner configuration
