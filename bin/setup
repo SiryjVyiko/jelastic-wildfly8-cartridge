@@ -10,12 +10,12 @@ mkdir -p ${OPENSHIFT_WILDFLY_DIR}/{pid,logs}
 service iptables save
 
 [ -f ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/.jboss-cli-history ] || touch ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/.jboss-cli-history
-cd /usr/java/latest/bin
+cd /usr/java/latest/bin ###SSL CERT GENERATION
 keypass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`;
-./keytool -genkeypair -alias serverkey -keyalg RSA -keysize 2048 -validity 7360 -keystore server.keystore -keypass $keypass -storepass $keypass -dname "cn=Server Administrator,o=Acme,c=GB";
-mv /usr/java/latest/bin/server.keystore ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/
-chown jelastic:jelastic ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/server.keystore
-sed -i s/theremustbethesslcertpass/$keypass/ ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/standalone.xml
+./keytool -genkeypair -alias serverkey -keyalg RSA -keysize 2048 -validity 7360 -keystore server.keystore -keypass $keypass -storepass $keypass -dname "cn=Server Administrator,o=Acme,c=GB"; ###SSL CERT GENERATION
+mv /usr/java/latest/bin/server.keystore ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/ ###SSL CERT GENERATION
+chown jelastic:jelastic ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/server.keystore ###SSL CERT GENERATION
+sed -i s/theremustbethesslcertpass/$keypass/ ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/standalone.xml ###SSL CERT GENERATION
 
 sed -i 's/opt\/repo:\/bin\/bash/opt\/repo\/home:\/bin\/bash/g' "/etc/passwd"
 
