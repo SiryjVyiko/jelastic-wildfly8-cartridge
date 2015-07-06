@@ -9,6 +9,8 @@ mkdir -p ${OPENSHIFT_WILDFLY_DIR}/{pid,logs}
 /sbin/iptables -t nat -I PREROUTING -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 8443
 service iptables save
 
+if [ ! -e ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/server.keystore ]
+then
 [ -f ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/.jboss-cli-history ] || touch ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/.jboss-cli-history
 cd /usr/java/latest/bin ###SSL CERT GENERATION
 keypass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`;
@@ -16,8 +18,9 @@ keypass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`;
 mv /usr/java/latest/bin/server.keystore ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/ ###SSL CERT GENERATION
 chown jelastic:jelastic ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/server.keystore ###SSL CERT GENERATION
 sed -i s/theremustbethesslcertpass/$keypass/ ${OPENSHIFT_WILDFLY_DIR}/versions/${Version}/standalone/configuration/standalone.xml ###SSL CERT GENERATION
+fi
 
-sed -i '/###SSL CERT GENERATION/d' $CARTRIDGE_HOME/bin/setup; 
+#sed -i '/###SSL CERT GENERATION/d' $CARTRIDGE_HOME/bin/setup; 
 
 sed -i 's/opt\/repo:\/bin\/bash/opt\/repo\/home:\/bin\/bash/g' "/etc/passwd"
 
